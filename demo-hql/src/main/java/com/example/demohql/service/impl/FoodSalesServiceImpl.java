@@ -27,21 +27,20 @@ public class FoodSalesServiceImpl implements FoodSalesService {
         sales.stream()
                 .forEach(
                         el -> {
-                            if (map.get(el.getOrderDate()) == null) {
-                                List l = new ArrayList();
-                                l.add(el);
-
-                                map.put(el.getOrderDate(), l);
+                            List<FoodSales> listFromMap = map.get(el.getOrderDate());
+                            if (Objects.isNull(listFromMap)) {
+                                List newList = new ArrayList();
+                                newList.add(el);
+                                map.put(el.getOrderDate(), newList);
                             } else {
-                                List<FoodSales> foodSales = map.get(el.getOrderDate());
-                                foodSales.add(el);
-                                map.put(el.getOrderDate(),foodSales);
-
+                                listFromMap.add(el);
                             }
                         }
                 );
 
         return map;
+
+
     }
 
     @Override
