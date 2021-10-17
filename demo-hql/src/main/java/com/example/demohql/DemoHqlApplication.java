@@ -20,6 +20,7 @@ import java.sql.*;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -37,10 +38,14 @@ public class DemoHqlApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         ExcelData.getDataFromExcelAndSaveToDb();
-        List<FoodSales> salesListByCity = foodSalesService.foodSales("Boston");
+//        List<FoodSales> salesListByCity = foodSalesService.getfoodSalesbyCity("Boston");
+//           System.out.println(salesListByCity);
 
-        System.out.println(salesListByCity);
+//        Map<Date, List<FoodSales>> salesByDate = foodSalesService.getSalesByDate();
+//        System.out.println(salesByDate);
 
+        List<FoodSales> allSales = foodSalesService.findAll();
+        System.out.println(allSales);
     }
 }
 
