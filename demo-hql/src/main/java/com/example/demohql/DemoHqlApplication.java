@@ -24,7 +24,9 @@ public class DemoHqlApplication {
         String username = "sa";
         String password = "";
 
-        String excelFilePath = "C:\\Users\\Bago\\Documents\\excel files\\food_sales.xlsx";
+//        String excelFilePath = "C:\\Users\\Bago\\Documents\\excel files\\food_sales.xlsx";
+
+        String excelFilePath = "src/main/resources/food_sales.xlsx";
 
         int batchSize = 20;
 
@@ -37,7 +39,7 @@ public class DemoHqlApplication {
 
             Workbook workbook = new XSSFWorkbook(inputStream);
 
-            Sheet firstSheet = workbook.getSheetAt(0);
+            Sheet firstSheet = workbook.getSheetAt(1);
             Iterator<Row> rowIterator = firstSheet.iterator();
 
             connection = DriverManager.getConnection(jdbcURL, username, password);
@@ -53,7 +55,7 @@ public class DemoHqlApplication {
                     "quantity," +
                     "unit_price," +
                     "total_price" +
-                    ") VALUES (?, ?, ?,?, ?, ?,?, ?, ?)";
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int count = 0;
@@ -68,7 +70,7 @@ public class DemoHqlApplication {
                     Cell nextCell = cellIterator.next();
 
                     int columnIndex = nextCell.getColumnIndex();
-
+                    System.out.println("col index =" + columnIndex);
                     switch (columnIndex) {
                         case 0:
                             int id = (int) nextCell.getNumericCellValue();
@@ -77,6 +79,7 @@ public class DemoHqlApplication {
                         case 1:
                             String region = nextCell.getStringCellValue();
                             statement.setString(2, region);
+                            System.out.println("sss" + region);
                             break;
                         case 2:
                             Date order_date = nextCell.getDateCellValue();
@@ -96,12 +99,16 @@ public class DemoHqlApplication {
                             statement.setString(6, product);
                             break;
                         case 6:
-                            double unit_price = nextCell.getNumericCellValue();
-                            statement.setDouble(7, unit_price);
+                            int quantity = (int) nextCell.getNumericCellValue();
+                            statement.setInt(7, quantity);
                             break;
                         case 7:
+                            double unit_price = nextCell.getNumericCellValue();
+                            statement.setDouble(8, unit_price);
+                            break;
+                        case 8:
                             double total_price = nextCell.getNumericCellValue();
-                            statement.setDouble(8, total_price);
+                            statement.setDouble(9, total_price);
                             break;
 
 
